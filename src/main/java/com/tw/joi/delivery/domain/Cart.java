@@ -1,9 +1,7 @@
 package com.tw.joi.delivery.domain;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,5 +23,9 @@ public class Cart {
     private List<Product> products = new ArrayList<>();
 
     private User user;
+
+    public void addProduct(Product product) {
+        products.add(product);
+    }
 
 }

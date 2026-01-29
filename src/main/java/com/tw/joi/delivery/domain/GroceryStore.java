@@ -1,5 +1,6 @@
 package com.tw.joi.delivery.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GroceryStore extends Outlet {
 
+    @JsonIgnore
     private Set<GroceryProduct> inventory=new HashSet<>();
 
     @Builder

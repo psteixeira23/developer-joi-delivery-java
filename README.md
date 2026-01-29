@@ -53,6 +53,43 @@ Dummy Products for Stores to sell and users to buy from.
 
 Below is a list of API endpoints with their respective input and output. Please note that the application needs to be running for the following endpoints to work. For more information about how to run the application, please refer to run the application section above.
 
+## Improvements Applied
+### API
+- Inventory Health endpoint with status calculation (HEALTHY/LOW_STOCK/OUT_OF_STOCK) and response DTO.
+  - Classes: `src/main/java/com/tw/joi/delivery/controller/InventoryController.java`, `src/main/java/com/tw/joi/delivery/service/InventoryService.java`, `src/main/java/com/tw/joi/delivery/dto/response/InventoryHealthResponse.java`, `src/main/java/com/tw/joi/delivery/enums/InventoryStatus.java`
+- Request validation (`@Valid`, `@NotBlank`) and centralized error handling with a consistent error model.
+  - Classes: `src/main/java/com/tw/joi/delivery/controller/CartController.java`, `src/main/java/com/tw/joi/delivery/controller/InventoryController.java`, `src/main/java/com/tw/joi/delivery/dto/request/AddProductRequest.java`, `src/main/java/com/tw/joi/delivery/exception/GlobalExceptionHandler.java`, `src/main/java/com/tw/joi/delivery/dto/response/ErrorResponse.java`
+- Domain error codes via enums and standardized API error payloads.
+  - Classes: `src/main/java/com/tw/joi/delivery/enums/ErrorCode.java`, `src/main/java/com/tw/joi/delivery/dto/response/ErrorResponse.java`
+- Stable, idempotent load-test endpoint (`/loadtest/ping`) for benchmarking.
+  - Classes: `src/main/java/com/tw/joi/delivery/controller/LoadTestController.java`, `src/main/java/com/tw/joi/delivery/dto/response/LoadTestResponse.java`
+
+### Services & Domain
+- Seed data inconsistencies fixed (user/cart/store linkage, initialization order) and made deterministic.
+  - Classes: `src/main/java/com/tw/joi/delivery/seed/SeedData.java`
+- Service refactors to be safer against NPEs and easier to test (smaller methods, clear responsibilities).
+  - Classes: `src/main/java/com/tw/joi/delivery/service/CartService.java`, `src/main/java/com/tw/joi/delivery/service/ProductService.java`, `src/main/java/com/tw/joi/delivery/service/UserService.java`, `src/main/java/com/tw/joi/delivery/service/StoreService.java`
+- Inventory and store services to isolate business rules from controllers.
+  - Classes: `src/main/java/com/tw/joi/delivery/service/InventoryService.java`, `src/main/java/com/tw/joi/delivery/service/StoreService.java`
+- Enums reorganized into a dedicated package for maintainability.
+  - Package: `src/main/java/com/tw/joi/delivery/enums`
+
+### Tests
+- Test utilities (fixtures/constants) to reduce duplication and improve clarity.
+  - Classes: `src/test/java/com/tw/joi/delivery/testutil/TestFixtures.java`, `src/test/java/com/tw/joi/delivery/testutil/TestConstants.java`
+- Expanded test coverage across services, controllers, and domain models.
+  - Classes: `src/test/java/com/tw/joi/delivery/service/*Test.java`, `src/test/java/com/tw/joi/delivery/controller/*Test.java`, `src/test/java/com/tw/joi/delivery/domain/DomainModelTest.java`, `src/test/java/com/tw/joi/delivery/seed/SeedDataTest.java`
+
+### Tooling & Quality
+- JSON output formatting for better API readability.
+  - File: `src/main/resources/application.yaml`
+- JaCoCo coverage verification integrated into the build pipeline.
+  - File: `build.gradle`
+- Google Checkstyle rules to enforce code style consistency.
+  - Files: `build.gradle`, `config/checkstyle/google_checks.xml`
+- SonarCloud configuration tailored for Gradle build outputs.
+  - File: `sonar-project.properties`
+
 ### Add Product to Cart
 ```http
 POST /cart/product

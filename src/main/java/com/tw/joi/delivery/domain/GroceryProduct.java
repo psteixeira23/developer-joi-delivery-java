@@ -27,7 +27,7 @@ public class GroceryProduct extends Product {
     private GroceryStore store;
 
     @Builder
-    public GroceryProduct(String productId, String productName, BigDecimal mrp, Cart cart,
+    public GroceryProduct(String productId, String productName, BigDecimal mrp,
                           BigDecimal sellingPrice, BigDecimal weight, int expiryDate, int threshold,
                           int availableStock, GroceryStore store, BigDecimal discount) {
         super(productId, productName,  mrp);
