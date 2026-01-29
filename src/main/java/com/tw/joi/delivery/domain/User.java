@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/** Represents a user in the system. */
 @Setter
 @Getter
 @Builder
@@ -14,14 +15,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class User {
 
-    private String userId;
-    private String username;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phoneNumber;
+  private String userId;
+  private String username;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String phoneNumber;
 
-    @JsonIgnore
-    private Cart cart;
-
+  @JsonIgnore private Cart cart;
 }

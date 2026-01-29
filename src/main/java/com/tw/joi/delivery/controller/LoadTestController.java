@@ -6,12 +6,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/** Endpoints used for load and health checks. */
 @RestController
 @RequestMapping("/loadtest")
 public class LoadTestController {
 
-    @GetMapping("/ping")
-    public ResponseEntity<LoadTestResponse> ping() {
-        return ResponseEntity.ok(new LoadTestResponse("OK"));
-    }
+  /**
+   * Simple idempotent endpoint for load testing.
+   *
+   * @return OK response
+   */
+  @GetMapping("/ping")
+  public ResponseEntity<LoadTestResponse> ping() {
+    return ResponseEntity.ok(new LoadTestResponse("OK"));
+  }
 }

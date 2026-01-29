@@ -22,43 +22,47 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @org.springframework.context.annotation.Import(GlobalExceptionHandler.class)
 class InventoryControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @MockitoBean
-    private InventoryService inventoryService;
+  @MockitoBean private InventoryService inventoryService;
 
-    @Test
-    void shouldReturnTheHealthOfTheStore() throws Exception {
-        String getUrl = "/inventory/health?storeId={storeId}";
-        InventoryHealthResponse response = TestFixtures.healthyInventoryResponse();
-        when(inventoryService.fetchStoreInventoryHealth(TestConstants.STORE_ID_101))
-            .thenReturn(response);
-        mockMvc.perform(MockMvcRequestBuilders.get(getUrl, TestConstants.STORE_ID_101)
-                            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.status", org.hamcrest.core.Is.is("HEALTHY")))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.totalProducts", org.hamcrest.core.Is.is(3)));
-    }
+  @Test
+  void shouldReturnTheHealthOfTheStore() throws Exception {
+    String getUrl = "/inventory/health?storeId={storeId}";
+    InventoryHealthResponse response = TestFixtures.healthyInventoryResponse();
+    when(inventoryService.fetchStoreInventoryHealth(TestConstants.STORE_ID_101))
+        .thenReturn(response);
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.get(getUrl, TestConstants.STORE_ID_101)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status", org.hamcrest.core.Is.is("HEALTHY")))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.totalProducts", org.hamcrest.core.Is.is(3)));
+  }
 
-    @Test
-    void shouldReturnNotFoundWhenStoreDoesNotExist() throws Exception {
-        String getUrl = "/inventory/health?storeId={storeId}";
-        when(inventoryService.fetchStoreInventoryHealth(TestConstants.STORE_ID_MISSING))
-            .thenThrow(new NotFoundException("Store not found for storeId=" + TestConstants.STORE_ID_MISSING));
+  @Test
+  void shouldReturnNotFoundWhenStoreDoesNotExist() throws Exception {
+    String getUrl = "/inventory/health?storeId={storeId}";
+    when(inventoryService.fetchStoreInventoryHealth(TestConstants.STORE_ID_MISSING))
+        .thenThrow(
+            new NotFoundException("Store not found for storeId=" + TestConstants.STORE_ID_MISSING));
 
-        mockMvc.perform(MockMvcRequestBuilders.get(getUrl, TestConstants.STORE_ID_MISSING)
-                            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNotFound())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.code", org.hamcrest.core.Is.is("NOT_FOUND")));
-    }
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.get(getUrl, TestConstants.STORE_ID_MISSING)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code", org.hamcrest.core.Is.is("NOT_FOUND")));
+  }
 
-    @Test
-    void shouldReturnBadRequestWhenStoreIdIsBlank() throws Exception {
-        String getUrl = "/inventory/health?storeId=";
-        mockMvc.perform(MockMvcRequestBuilders.get(getUrl)
-                            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.code", org.hamcrest.core.Is.is("VALIDATION_ERROR")));
-    }
+  @Test
+  void shouldReturnBadRequestWhenStoreIdIsBlank() throws Exception {
+    String getUrl = "/inventory/health?storeId=";
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(getUrl).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(
+            MockMvcResultMatchers.jsonPath("$.code", org.hamcrest.core.Is.is("VALIDATION_ERROR")));
+  }
 }

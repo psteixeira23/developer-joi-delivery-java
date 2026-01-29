@@ -12,47 +12,71 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/** Maps exceptions to standardized API error responses. */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(NotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body(new ErrorResponse(ErrorCode.NOT_FOUND, ex.getMessage(), List.of()));
-    }
+  /**
+   * Handles resource not found errors.
+   *
+   * @param ex exception
+   * @return error response
+   */
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity<ErrorResponse> handleNotFound(NotFoundException ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new ErrorResponse(ErrorCode.NOT_FOUND, ex.getMessage(), List.of()));
+  }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
-        List<String> details = ex.getBindingResult()
-            .getFieldErrors()
-            .stream()
+  /**
+   * Handles request validation errors.
+   *
+   * @param ex exception
+   * @return error response
+   */
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
+    List<String> details =
+        ex.getBindingResult().getFieldErrors().stream()
             .map(GlobalExceptionHandler::formatFieldError)
             .collect(Collectors.toList());
-        return ResponseEntity.badRequest()
-            .body(new ErrorResponse(ErrorCode.VALIDATION_ERROR,
-                ErrorCode.VALIDATION_ERROR.defaultMessage(),
-                details));
-    }
+    return ResponseEntity.badRequest()
+        .body(
+            new ErrorResponse(
+                ErrorCode.VALIDATION_ERROR, ErrorCode.VALIDATION_ERROR.defaultMessage(), details));
+  }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest()
-            .body(new ErrorResponse(ErrorCode.BAD_REQUEST, ex.getMessage(), List.of()));
-    }
+  /**
+   * Handles invalid argument errors.
+   *
+   * @param ex exception
+   * @return error response
+   */
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
+    return ResponseEntity.badRequest()
+        .body(new ErrorResponse(ErrorCode.BAD_REQUEST, ex.getMessage(), List.of()));
+  }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException ex) {
-        List<String> details = ex.getConstraintViolations()
-            .stream()
+  /**
+   * Handles constraint validation errors.
+   *
+   * @param ex exception
+   * @return error response
+   */
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException ex) {
+    List<String> details =
+        ex.getConstraintViolations().stream()
             .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
             .collect(Collectors.toList());
-        return ResponseEntity.badRequest()
-            .body(new ErrorResponse(ErrorCode.VALIDATION_ERROR,
-                ErrorCode.VALIDATION_ERROR.defaultMessage(),
-                details));
-    }
+    return ResponseEntity.badRequest()
+        .body(
+            new ErrorResponse(
+                ErrorCode.VALIDATION_ERROR, ErrorCode.VALIDATION_ERROR.defaultMessage(), details));
+  }
 
-    private static String formatFieldError(FieldError error) {
-        return error.getField() + ": " + error.getDefaultMessage();
-    }
+  private static String formatFieldError(FieldError error) {
+    return error.getField() + ": " + error.getDefaultMessage();
+  }
 }

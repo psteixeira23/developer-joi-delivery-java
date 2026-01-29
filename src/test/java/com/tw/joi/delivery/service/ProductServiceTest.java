@@ -13,30 +13,31 @@ import org.junit.jupiter.api.Test;
 
 class ProductServiceTest {
 
-    private ProductService productService;
+  private ProductService productService;
 
-    @BeforeEach
-    void setUp() {
-        SeedData.reset();
-        productService = new ProductService();
-    }
+  @BeforeEach
+  void setUp() {
+    SeedData.reset();
+    productService = new ProductService();
+  }
 
-    @Test
-    void shouldReturnProductForStore() {
-        GroceryProduct product = productService.getProduct(
-            TestConstants.PRODUCT_ID_101, TestConstants.STORE_ID_101);
-        assertEquals(TestConstants.PRODUCT_ID_101, product.getProductId());
-    }
+  @Test
+  void shouldReturnProductForStore() {
+    GroceryProduct product =
+        productService.getProduct(TestConstants.PRODUCT_ID_101, TestConstants.STORE_ID_101);
+    assertEquals(TestConstants.PRODUCT_ID_101, product.getProductId());
+  }
 
-    @Test
-    void shouldThrowWhenProductNotFoundForStore() {
-        assertThrows(NotFoundException.class,
-            () -> productService.getProduct(TestConstants.PRODUCT_ID_101, TestConstants.STORE_ID_102));
-    }
+  @Test
+  void shouldThrowWhenProductNotFoundForStore() {
+    assertThrows(
+        NotFoundException.class,
+        () -> productService.getProduct(TestConstants.PRODUCT_ID_101, TestConstants.STORE_ID_102));
+  }
 
-    @Test
-    void shouldReturnProductsByStore() {
-        List<GroceryProduct> products = productService.getProductsByStoreId(TestConstants.STORE_ID_101);
-        assertEquals(3, products.size());
-    }
+  @Test
+  void shouldReturnProductsByStore() {
+    List<GroceryProduct> products = productService.getProductsByStoreId(TestConstants.STORE_ID_101);
+    assertEquals(3, products.size());
+  }
 }

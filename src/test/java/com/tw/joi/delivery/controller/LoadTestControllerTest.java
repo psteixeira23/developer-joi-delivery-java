@@ -13,13 +13,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @WebMvcTest(LoadTestController.class)
 class LoadTestControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Test
-    void shouldReturnOkForPing() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/loadtest/ping"))
-            .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.status", Is.is("OK")));
-    }
+  @Test
+  void shouldReturnOkForPing() throws Exception {
+    mockMvc
+        .perform(MockMvcRequestBuilders.get("/loadtest/ping"))
+        .andExpect(status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status", Is.is("OK")));
+  }
 }

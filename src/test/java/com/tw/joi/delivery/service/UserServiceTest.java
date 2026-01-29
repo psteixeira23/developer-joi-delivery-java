@@ -12,23 +12,23 @@ import org.junit.jupiter.api.Test;
 
 class UserServiceTest {
 
-    private UserService userService;
+  private UserService userService;
 
-    @BeforeEach
-    void setUp() {
-        SeedData.reset();
-        userService = new UserService();
-    }
+  @BeforeEach
+  void setUp() {
+    SeedData.reset();
+    userService = new UserService();
+  }
 
-    @Test
-    void shouldReturnUserWhenExists() {
-        User user = userService.fetchUserById(TestConstants.USER_ID_101);
-        assertEquals(TestConstants.USER_ID_101, user.getUserId());
-    }
+  @Test
+  void shouldReturnUserWhenExists() {
+    User user = userService.fetchUserById(TestConstants.USER_ID_101);
+    assertEquals(TestConstants.USER_ID_101, user.getUserId());
+  }
 
-    @Test
-    void shouldThrowWhenUserDoesNotExist() {
-        assertThrows(NotFoundException.class,
-            () -> userService.fetchUserById(TestConstants.USER_ID_MISSING));
-    }
+  @Test
+  void shouldThrowWhenUserDoesNotExist() {
+    assertThrows(
+        NotFoundException.class, () -> userService.fetchUserById(TestConstants.USER_ID_MISSING));
+  }
 }

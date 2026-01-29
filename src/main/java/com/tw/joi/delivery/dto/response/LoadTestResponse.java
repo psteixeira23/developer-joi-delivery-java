@@ -1,4 +1,8 @@
 package com.tw.joi.delivery.dto.response;
 
-public record LoadTestResponse(String status) {
-}
+/**
+ * Response for load test ping endpoint.
+ *
+ * @param status response status
+ */
+public record LoadTestResponse(String status) {}

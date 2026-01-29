@@ -7,15 +7,22 @@ import java.util.List;
 import java.util.Objects;
 import org.springframework.stereotype.Service;
 
+/** Service for store queries. */
 @Service
 public class StoreService {
 
-    private final List<GroceryStore> stores = SeedData.getStores();
+  private final List<GroceryStore> stores = SeedData.getStores();
 
-    public GroceryStore fetchStoreById(String storeId) {
-        return stores.stream()
-            .filter(store -> Objects.equals(storeId, store.getOutletId()))
-            .findFirst()
-            .orElseThrow(() -> new NotFoundException("Store not found for storeId=" + storeId));
-    }
+  /**
+   * Returns a store by storeId.
+   *
+   * @param storeId store identifier
+   * @return grocery store
+   */
+  public GroceryStore fetchStoreById(String storeId) {
+    return stores.stream()
+        .filter(store -> Objects.equals(storeId, store.getOutletId()))
+        .findFirst()
+        .orElseThrow(() -> new NotFoundException("Store not found for storeId=" + storeId));
+  }
 }

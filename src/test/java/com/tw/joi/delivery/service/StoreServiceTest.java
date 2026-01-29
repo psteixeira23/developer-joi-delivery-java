@@ -12,23 +12,23 @@ import org.junit.jupiter.api.Test;
 
 class StoreServiceTest {
 
-    private StoreService storeService;
+  private StoreService storeService;
 
-    @BeforeEach
-    void setUp() {
-        SeedData.reset();
-        storeService = new StoreService();
-    }
+  @BeforeEach
+  void setUp() {
+    SeedData.reset();
+    storeService = new StoreService();
+  }
 
-    @Test
-    void shouldReturnStoreWhenExists() {
-        GroceryStore store = storeService.fetchStoreById(TestConstants.STORE_ID_101);
-        assertEquals(TestConstants.STORE_ID_101, store.getOutletId());
-    }
+  @Test
+  void shouldReturnStoreWhenExists() {
+    GroceryStore store = storeService.fetchStoreById(TestConstants.STORE_ID_101);
+    assertEquals(TestConstants.STORE_ID_101, store.getOutletId());
+  }
 
-    @Test
-    void shouldThrowWhenStoreDoesNotExist() {
-        assertThrows(NotFoundException.class,
-            () -> storeService.fetchStoreById(TestConstants.STORE_ID_MISSING));
-    }
+  @Test
+  void shouldThrowWhenStoreDoesNotExist() {
+    assertThrows(
+        NotFoundException.class, () -> storeService.fetchStoreById(TestConstants.STORE_ID_MISSING));
+  }
 }

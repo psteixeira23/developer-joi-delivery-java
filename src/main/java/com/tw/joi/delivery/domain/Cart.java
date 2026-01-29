@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+/** Represents a user's cart. */
 @Getter
 @Setter
 @Builder
@@ -16,16 +16,19 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Cart {
 
-    private String cartId;
-    private Outlet outlet;
+  private String cartId;
+  private Outlet outlet;
 
-    @Builder.Default
-    private List<Product> products = new ArrayList<>();
+  @Builder.Default private List<Product> products = new ArrayList<>();
 
-    private User user;
+  private User user;
 
-    public void addProduct(Product product) {
-        products.add(product);
-    }
-
+  /**
+   * Adds a product to the cart.
+   *
+   * @param product product to add
+   */
+  public void addProduct(Product product) {
+    products.add(product);
+  }
 }

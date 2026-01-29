@@ -3,5 +3,11 @@ package com.tw.joi.delivery.dto.response;
 import com.tw.joi.delivery.enums.ErrorCode;
 import java.util.List;
 
-public record ErrorResponse(ErrorCode code, String message, List<String> details) {
-}
+/**
+ * Standard error payload for API responses.
+ *
+ * @param code error code
+ * @param message human-readable message
+ * @param details error details
+ */
+public record ErrorResponse(ErrorCode code, String message, List<String> details) {}
