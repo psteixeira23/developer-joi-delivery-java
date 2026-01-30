@@ -4,7 +4,6 @@ import com.tw.joi.delivery.dto.response.ErrorResponse;
 import com.tw.joi.delivery.enums.ErrorCode;
 import jakarta.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -39,7 +38,7 @@ public class GlobalExceptionHandler {
     List<String> details =
         ex.getBindingResult().getFieldErrors().stream()
             .map(GlobalExceptionHandler::formatFieldError)
-            .collect(Collectors.toList());
+            .toList();
     return ResponseEntity.badRequest()
         .body(
             new ErrorResponse(
@@ -69,7 +68,7 @@ public class GlobalExceptionHandler {
     List<String> details =
         ex.getConstraintViolations().stream()
             .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
-            .collect(Collectors.toList());
+            .toList();
     return ResponseEntity.badRequest()
         .body(
             new ErrorResponse(

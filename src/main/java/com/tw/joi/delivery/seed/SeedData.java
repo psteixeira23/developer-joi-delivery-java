@@ -14,10 +14,10 @@ import java.util.Map;
 /** Provides deterministic seed data for development and tests. */
 public final class SeedData {
 
-  private static GroceryStore store101;
-  private static GroceryStore store102;
-  private static User user101;
-  private static User user102;
+  private static final String STORE_ID_101 = "store101";
+  private static final String STORE_ID_102 = "store102";
+  private static final String USER_ID_101 = "user101";
+  private static final String USER_ID_102 = "user102";
 
   private static final List<GroceryStore> stores = new ArrayList<>();
   private static final List<GroceryProduct> groceryProducts = new ArrayList<>();
@@ -37,10 +37,7 @@ public final class SeedData {
     users.clear();
     cartForUsers.clear();
 
-    store101 = SeedData.createStore("Fresh Picks", "store101");
-    store102 = SeedData.createStore("Natural Choice", "store102");
-    user101 = SeedData.createUser("user101", "John", "Doe");
-    user102 = SeedData.createUser("user102", "Rachel", "Zane");
+    GroceryStore store101 = SeedData.createStore("Fresh Picks", STORE_ID_101);
 
     groceryProducts.add(createGroceryProduct("Wheat Bread", "product101", store101));
     groceryProducts.add(createGroceryProduct("Spinach", "product102", store101));
@@ -49,11 +46,16 @@ public final class SeedData {
     store101.getInventory().addAll(groceryProducts);
 
     stores.add(store101);
-    stores.add(store102);
-    users.add(user101);
-    users.add(user102);
 
+    GroceryStore store102 = SeedData.createStore("Natural Choice", STORE_ID_102);
+    stores.add(store102);
+
+    User user101 = SeedData.createUser(USER_ID_101, "John", "Doe");
+    users.add(user101);
     cartForUsers.put(user101.getUserId(), createCartForUser(user101, store101, "cart101"));
+
+    User user102 = SeedData.createUser(USER_ID_102, "Rachel", "Zane");
+    users.add(user102);
     cartForUsers.put(user102.getUserId(), createCartForUser(user102, store102, "cart102"));
   }
 
@@ -124,7 +126,14 @@ public final class SeedData {
    * @return user101
    */
   public static User getUser101() {
-    return user101;
+    return findUserById(USER_ID_101);
+  }
+
+  private static User findUserById(String userId) {
+    return users.stream()
+        .filter(user -> userId.equals(user.getUserId()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalStateException("Seed user not found: " + userId));
   }
 
   /**

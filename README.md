@@ -82,6 +82,11 @@ Below is a list of API endpoints with their respective input and output. Please 
 
 - Seed data inconsistencies fixed (user/cart/store linkage, initialization order) and made deterministic.
   - Classes: `src/main/java/com/tw/joi/delivery/seed/SeedData.java`
+- Seed data no longer relies on mutable static singleton references; IDs are constants and lookups are deterministic.
+  - Classes: `src/main/java/com/tw/joi/delivery/seed/SeedData.java`
+- Seed initialization now declares objects close to first use to reduce scope and prevent ordering issues flagged by static analysis.
+  - Gain: clearer flow, fewer code smells, and easier future maintenance.
+  - Classes: `src/main/java/com/tw/joi/delivery/seed/SeedData.java`
 - Service refactors to be safer against NPEs and easier to test (smaller methods, clear responsibilities).
   - Classes: `src/main/java/com/tw/joi/delivery/service/CartService.java`, `src/main/java/com/tw/joi/delivery/service/ProductService.java`, `src/main/java/com/tw/joi/delivery/service/UserService.java`, `src/main/java/com/tw/joi/delivery/service/StoreService.java`
 - Inventory and store services to isolate business rules from controllers.
